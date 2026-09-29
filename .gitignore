@@ -1,6 +1,0 @@
-node_modules/
-.vite/
-.vscode/
-__pycache__/
-*.pyc
-.env
