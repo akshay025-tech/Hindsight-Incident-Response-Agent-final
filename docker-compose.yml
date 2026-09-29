@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - HINDSIGHT_API_KEY=${HINDSIGHT_API_KEY:-}
+      - HINDSIGHT_BASE_URL=${HINDSIGHT_BASE_URL:-https://api.hindsight.vectorize.io}
+      - HINDSIGHT_BANK_ID=${HINDSIGHT_BANK_ID:-incident-response-team}
+      - LLM_API_KEY=${LLM_API_KEY:-}
+      - DATABASE_URL=sqlite:///./incident_response.db
+    volumes:
+      - ./backend/incident_response.db:/app/incident_response.db
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_BASE_URL=http://backend:8000
+    depends_on:
+      - backend
+
+  # Optional local Hindsight container (when running Hindsight on-prem)
+  # Uncomment if using self-hosted Hindsight instead of Hindsight Cloud:
+  # hindsight-local:
+  #   image: vectorize/hindsight:latest
+  #   ports:
+  #     - "8080:8080"
+  #   environment:
+  #     - HINDSIGHT_PORT=8080

@@ -1,0 +1,165 @@
+<USER_REQUEST>
+============================================================
+MASTER BUILD PROMPT
+HINDSIGHT-POWERED INCIDENT RESPONSE AGENT
+============================================================
+
+You are an expert full-stack AI engineer, agent engineer,
+FastAPI developer, React developer, DevOps engineer, and QA
+engineer.
+
+IMPORTANT:
+
+THE CURRENT WORKSPACE IS EMPTY.
+
+THERE IS NO EXISTING APPLICATION.
+
+CREATE THE ENTIRE PROJECT FROM SCRATCH.
+
+DO NOT WAIT FOR AN EXISTING REPOSITORY.
+DO NOT ASK ME TO PROVIDE EXISTING FILES.
+DO NOT PERFORM AN AUDIT FIRST.
+
+BUILD THE COMPLETE APPLICATION NOW.
+
+The project must be runnable in VS Code / Antigravity on
+Windows and must be designed for a hackathon demonstration.
+
+============================================================
+1. HACKATHON PROBLEM
+============================================================
+
+Selected problem:
+
+ENGINEERING & DEVOPS AGENT
+
+INCIDENT RESPONSE AGENT
+
+Business Case:
+
+"Incident Response Agent remembers past incidents, their root
+causes, resolution steps, and which runbooks worked. Learns from
+post-mortems to suggest faster fixes for similar issues."
+
+This exact idea must drive the architecture.
+
+The application must demonstrate that the system:
+
+1. Receives an incident.
+2. Investigates it.
+3. Uses Hindsight to recall similar historical incidents.
+4. Uses an LLM to reason about the current incident.
+5. Identifies possible root causes.
+6. Finds relevant runbooks.
+7. Recommends a response.
+8. Keeps a human in the loop.
+9. Resolves the incident.
+10. Generates a postmortem.
+11. Retains useful learning into Hindsight.
+12. Uses that learning during a future similar incident.
+
+THE MOST IMPORTANT DEMONSTRATION:
+
+FIRST INCIDENT
+    ↓
+INVESTIGATE
+    ↓
+RESOLVE
+    ↓
+POSTMORTEM
+    ↓
+HINDSIGHT RETAIN
+    ↓
+SECOND SIMILAR INCIDENT
+    ↓
+HINDSIGHT RECALL
+    ↓
+PREVIOUS ROOT CAUSE + RESOLUTION + RUNBOOK
+    ↓
+FASTER RECOMMENDATION
+
+If this learning loop does not work
+<truncated 32192 bytes>
+
+Also provide:
+
+1. Files created.
+2. Dependencies installed.
+3. Environment variables required.
+4. Exact commands to start backend.
+5. Exact commands to start frontend.
+6. Exact Hindsight setup.
+7. Exact demo steps.
+
+IMPORTANT:
+
+Do not say READY unless the full:
+
+INCIDENT A
+→ POSTMORTEM
+→ HINDSIGHT RETAIN
+→ INCIDENT B
+→ HINDSIGHT RECALL
+→ HISTORICAL RECOMMENDATION
+
+workflow has actually been verified.
+
+============================================================
+FINAL INSTRUCTION
+============================================================
+
+START NOW.
+
+Because the workspace is empty, CREATE EVERYTHING FROM SCRATCH.
+
+Do not ask me for an existing repository.
+
+Do not stop after planning.
+
+Do not give me pseudocode.
+
+Create the actual files.
+
+Install dependencies where appropriate.
+
+Run the application.
+
+Run tests.
+
+Fix errors.
+
+Run the learning-loop verification.
+
+The final application must be a functional,
+Hindsight-powered Incident Response Agent suitable for
+a hackathon demonstration.
+
+The core story is:
+
+                 INCIDENT
+                     ↓
+              HINDSIGHT RECALL
+                     ↓
+             AI INVESTIGATION
+                     ↓
+               RECOMMEND
+                     ↓
+              HUMAN APPROVAL
+                     ↓
+                RESOLVE
+                     ↓
+              POSTMORTEM
+                     ↓
+              HINDSIGHT RETAIN
+                     ↓
+          FUTURE INCIDENT LEARNS
+
+BUILD THIS NOW.
+============================================================
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-09-29T18:27:48+05:30.
+</ADDITIONAL_METADATA>
+<USER_SETTINGS_CHANGE>
+The user changed setting `Model Selection` from None to Claude Sonnet 4.6 (Thinking). No need to comment on this change if the user doesn't ask about it. If reporting what model you are, please use a human readable name instead of the exact string.
+</USER_SETTINGS_CHANGE>

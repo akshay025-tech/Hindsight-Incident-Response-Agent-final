@@ -1,0 +1,1853 @@
+<USER_REQUEST>
+============================================================
+MASTER BUILD PROMPT
+HINDSIGHT-POWERED INCIDENT RESPONSE AGENT
+============================================================
+
+You are an expert full-stack AI engineer, agent engineer,
+FastAPI developer, React developer, DevOps engineer, and QA
+engineer.
+
+IMPORTANT:
+
+THE CURRENT WORKSPACE IS EMPTY.
+
+THERE IS NO EXISTING APPLICATION.
+
+CREATE THE ENTIRE PROJECT FROM SCRATCH.
+
+DO NOT WAIT FOR AN EXISTING REPOSITORY.
+DO NOT ASK ME TO PROVIDE EXISTING FILES.
+DO NOT PERFORM AN AUDIT FIRST.
+
+BUILD THE COMPLETE APPLICATION NOW.
+
+The project must be runnable in VS Code / Antigravity on
+Windows and must be designed for a hackathon demonstration.
+
+============================================================
+1. HACKATHON PROBLEM
+============================================================
+
+Selected problem:
+
+ENGINEERING & DEVOPS AGENT
+
+INCIDENT RESPONSE AGENT
+
+Business Case:
+
+"Incident Response Agent remembers past incidents, their root
+causes, resolution steps, and which runbooks worked. Learns from
+post-mortems to suggest faster fixes for similar issues."
+
+This exact idea must drive the architecture.
+
+The application must demonstrate that the system:
+
+1. Receives an incident.
+2. Investigates it.
+3. Uses Hindsight to recall similar historical incidents.
+4. Uses an LLM to reason about the current incident.
+5. Identifies possible root causes.
+6. Finds relevant runbooks.
+7. Recommends a response.
+8. Keeps a human in the loop.
+9. Resolves the incident.
+10. Generates a postmortem.
+11. Retains useful learning into Hindsight.
+12. Uses that learning during a future similar incident.
+
+THE MOST IMPORTANT DEMONSTRATION:
+
+FIRST INCIDENT
+    ↓
+INVESTIGATE
+    ↓
+RESOLVE
+    ↓
+POSTMORTEM
+    ↓
+HINDSIGHT RETAIN
+    ↓
+SECOND SIMILAR INCIDENT
+    ↓
+HINDSIGHT RECALL
+    ↓
+PREVIOUS ROOT CAUSE + RESOLUTION + RUNBOOK
+    ↓
+FASTER RECOMMENDATION
+
+If this learning loop does not work, the project is not complete.
+
+============================================================
+2. OFFICIAL HINDSIGHT RESOURCES
+============================================================
+
+Use the official Hindsight resources:
+
+Documentation:
+https://hindsight.vectorize.io/
+
+GitHub:
+https://github.com/vectorize-io/hindsight
+
+Cloud:
+https://ui.hindsight.vectorize.io/
+
+Python SDK:
+https://docs.dev.hindsight.vectorize.io/python-sdk/
+
+Install:
+
+pip install hindsight-client
+
+IMPORTANT:
+
+Do not invent Hindsight APIs.
+
+Use the current official Python SDK.
+
+The SDK supports:
+
+retain
+recall
+reflect
+
+For FastAPI async code, prefer:
+
+aretain
+arecall
+areflect
+
+Use the current SDK behavior from the official documentation.
+
+============================================================
+3. APPLICATION NAME
+============================================================
+
+Project name:
+
+Incident Response Agent
+
+Frontend title:
+
+Incident Response Agent
+AI-Powered DevOps Incident Command Center
+
+Backend:
+
+FastAPI
+
+Frontend:
+
+React + Vite
+
+============================================================
+4. PROJECT STRUCTURE
+============================================================
+
+Create this structure:
+
+Incident-Response-Agent/
+│
+├── backend/
+│   ├── app/
+│   │   ├── __init__.py
+│   │   ├── main.py
+│   │   │
+│   │   ├── api/
+│   │   │   ├── __init__.py
+│   │   │   ├── incidents.py
+│   │   │   ├── agent.py
+│   │   │   ├── memory.py
+│   │   │   ├── postmortems.py
+│   │   │   └── health.py
+│   │   │
+│   │   ├── agents/
+│   │   │   ├── __init__.py
+│   │   │   ├── incident_agent.py
+│   │   │   ├── hypothesis_engine.py
+│   │   │   └── recommendation_engine.py
+│   │   │
+│   │   ├── services/
+│   │   │   ├── __init__.py
+│   │   │   ├── hindsight_service.py
+│   │   │   ├── llm_service.py
+│   │   │   ├── incident_service.py
+│   │   │   ├── runbook_service.py
+│   │   │   └── postmortem_service.py
+│   │   │
+│   │   ├── models/
+│   │   │   ├── __init__.py
+│   │   │   ├── incident.py
+│   │   │   ├── analysis.py
+│   │   │   ├── recommendation.py
+│   │   │   └── postmortem.py
+│   │   │
+│   │   ├── data/
+│   │   │   ├── incidents.json
+│   │   │   └── runbooks.json
+│   │   │
+│   │   ├── config.py
+│   │   └── dependencies.py
+│   │
+│   ├── tests/
+│   │   ├── test_health.py
+│   │   ├── test_incidents.py
+│   │   ├── test_agent.py
+│   │   ├── test_memory.py
+│   │   └── test_postmortem.py
+│   │
+│   ├── requirements.txt
+│   ├── .env.example
+│   └── .gitignore
+│
+├── frontend/
+│   ├── src/
+│   │   ├── api/
+│   │   │   └── client.js
+│   │   │
+│   │   ├── components/
+│   │   │   ├── Header.jsx
+│   │   │   ├── IncidentCard.jsx
+│   │   │   ├── SeverityBadge.jsx
+│   │   │   ├── MemoryPanel.jsx
+│   │   │   ├── HypothesisCard.jsx
+│   │   │   ├── EvidencePanel.jsx
+│   │   │   ├── RecommendationCard.jsx
+│   │   │   ├── ApprovalPanel.jsx
+│   │   │   ├── Timeline.jsx
+│   │   │   ├── PostmortemPanel.jsx
+│   │   │   └── SystemStatus.jsx
+│   │   │
+│   │   ├── pages/
+│   │   │   ├── Dashboard.jsx
+│   │   │   ├── IncidentDetails.jsx
+│   │   │   ├── MemoryLibrary.jsx
+│   │   │   └── Postmortem.jsx
+│   │   │
+│   │   ├── App.jsx
+│   │   ├── main.jsx
+│   │   └── styles.css
+│   │
+│   ├── package.json
+│   ├── vite.config.js
+│   ├── .env.example
+│   └── .gitignore
+│
+├── scripts/
+│   ├── seed_demo.py
+│   └── verify_learning_loop.py
+│
+├── .gitignore
+├── README.md
+└── docker-compose.yml
+
+============================================================
+5. CORE ARCHITECTURE
+============================================================
+
+Implement:
+
+                    INCIDENT
+                       │
+                       ▼
+                NORMALIZATION
+                       │
+                       ▼
+              HINDSIGHT RECALL
+                       │
+             ┌─────────┴─────────┐
+             ▼                   ▼
+      Similar Incidents     Past Resolutions
+             │                   │
+             └─────────┬─────────┘
+                       ▼
+                AI INVESTIGATION
+                       │
+                       ▼
+              HYPOTHESIS ENGINE
+                       │
+                       ▼
+                EVIDENCE ANALYSIS
+                       │
+                       ▼
+             RUNBOOK MATCHING
+                       │
+                       ▼
+              RECOMMENDATION
+                       │
+                       ▼
+               HUMAN APPROVAL
+                       │
+                       ▼
+                  RESOLUTION
+                       │
+                       ▼
+                 POSTMORTEM
+                       │
+                       ▼
+                HINDSIGHT RETAIN
+                       │
+                       ▼
+             FUTURE INCIDENTS
+
+============================================================
+6. HINDSIGHT IS THE CORE
+============================================================
+
+Hindsight must be the actual long-term memory system.
+
+Do NOT implement a fake local memory system and call it
+"Hindsight."
+
+Do NOT make memory.json the primary long-term memory.
+
+The application may use JSON for demo incidents and runbooks,
+but historical learning must be stored in Hindsight.
+
+Use one memory bank:
+
+incident-response-team
+
+Environment variables:
+
+HINDSIGHT_BASE_URL=
+HINDSIGHT_API_KEY=
+HINDSIGHT_BANK_ID=incident-response-team
+
+The application must work with Hindsight Cloud.
+
+Default Cloud URL:
+
+https://api.hindsight.vectorize.io
+
+Also allow:
+
+http://localhost:8888
+
+for local Hindsight.
+
+Never hardcode API keys.
+
+============================================================
+7. HINDSIGHT SERVICE
+============================================================
+
+Create:
+
+backend/app/services/hindsight_service.py
+
+This should be the ONLY place in the backend that directly
+communicates with Hindsight.
+
+Implement:
+
+- retain_incident_learning()
+- recall_similar_incidents()
+- reflect_on_incidents()
+- health_check()
+
+Use a reusable Hindsight client.
+
+Because FastAPI is asynchronous, use the async Hindsight SDK
+methods where supported.
+
+Handle all Hindsight exceptions gracefully.
+
+If Hindsight is unavailable:
+
+DO NOT CRASH THE BACKEND.
+
+Return a structured degraded response:
+
+{
+    "available": false,
+    "message": "Hindsight unavailable"
+}
+
+Never fabricate memories.
+
+============================================================
+8. WHAT TO RETAIN
+============================================================
+
+After an incident is resolved, retain useful operational
+knowledge.
+
+Memory should contain:
+
+Incident ID
+Incident type
+Incident title
+Affected service
+Severity
+Symptoms
+Important metrics
+Relevant logs
+Root cause
+Contributing factors
+Resolution
+Runbook used
+Whether runbook succeeded
+Failed approaches
+Operator feedback
+Postmortem lessons
+Follow-up actions
+
+Example retained content:
+
+"Incident IR-001 affected the API Gateway after deployment.
+CPU reached 94 percent and memory usage increased continuously.
+The root cause was a memory leak introduced in the latest
+deployment. The team rolled back the deployment and restarted
+the service. The API Gateway Memory Leak Recovery runbook was
+successful. For future incidents with similar symptoms,
+investigate recent deployments and memory growth before
+performing broad infrastructure changes."
+
+This is the type of operational experience that Hindsight
+should learn.
+
+============================================================
+9. HINDSIGHT RECALL
+============================================================
+
+Before AI investigation, build a recall query using:
+
+- service
+- incident type
+- symptoms
+- severity
+- metrics
+- logs
+- deployment information
+- error messages
+
+Example:
+
+"Find previous incidents involving API Gateway high CPU,
+memory growth, recent deployment, memory leaks, successful
+rollback procedures, and related runbooks."
+
+Use:
+
+arecall()
+
+where supported.
+
+Display returned memories in the frontend.
+
+Each memory should expose as much useful metadata as the SDK
+response provides, such as:
+
+text
+type
+context
+id
+
+Do not invent fields if Hindsight does not provide them.
+
+If there are no results:
+
+historical_memory_found = false
+
+The UI must display:
+
+"No relevant historical incident memory found."
+
+If results exist:
+
+historical_memory_found = true
+
+The UI must display:
+
+"X relevant historical memories found."
+
+============================================================
+10. HINDSIGHT REFLECT
+============================================================
+
+Use Hindsight reflect for questions requiring reasoning over
+historical memory.
+
+Example:
+
+"What root causes and successful remediation patterns have
+appeared in previous API Gateway incidents similar to this one?"
+
+Use:
+
+areflect()
+
+where supported.
+
+Use reflect for synthesis.
+
+Use recall when raw historical memories are required.
+
+Do not confuse the two.
+
+============================================================
+11. INCIDENT MODEL
+============================================================
+
+Create Pydantic models.
+
+Incident:
+
+{
+    "id": "IR-001",
+    "title": "API Gateway High CPU",
+    "service": "api-gateway",
+    "severity": "HIGH",
+    "status": "OPEN",
+    "description": "...",
+    "symptoms": [],
+    "metrics": {},
+    "logs": [],
+    "deployment": {},
+    "created_at": "...",
+    "updated_at": "..."
+}
+
+Severity:
+
+LOW
+MEDIUM
+HIGH
+CRITICAL
+
+Status:
+
+OPEN
+INVESTIGATING
+MITIGATED
+RESOLVED
+
+============================================================
+12. DEMO INCIDENT TYPES
+============================================================
+
+Create seed/demo incidents for:
+
+1. High CPU
+2. Database Timeout
+3. HTTP 5xx Spike
+4. Memory Leak
+5. Slow Query
+6. Bad Deployment
+
+The simulator should allow selecting these.
+
+============================================================
+13. HYPOTHESIS ENGINE
+============================================================
+
+Create:
+
+backend/app/agents/hypothesis_engine.py
+
+The engine should produce possible causes.
+
+Examples:
+
+High CPU:
+
+- Memory leak
+- Traffic spike
+- Bad deployment
+- CPU-intensive process
+
+Database timeout:
+
+- Slow query
+- Database overload
+- Connection pool exhaustion
+- Network issue
+
+HTTP 5xx:
+
+- Bad deployment
+- Application exception
+- Dependency failure
+- Configuration error
+
+Every hypothesis must include:
+
+cause
+confidence
+evidence
+reasoning
+
+Example:
+
+{
+    "cause": "Memory leak",
+    "confidence": 0.87,
+    "evidence": [
+        "Memory usage increased continuously",
+        "Similar historical incident found"
+    ],
+    "reasoning": "The current symptoms match a previous
+    incident caused by a deployment-related memory leak."
+}
+
+Do not claim certainty without evidence.
+
+============================================================
+14. LLM SERVICE
+============================================================
+
+Create:
+
+backend/app/services/llm_service.py
+
+Use an OpenAI-compatible API.
+
+Support Groq.
+
+Environment variables:
+
+LLM_API_KEY=
+LLM_BASE_URL=
+LLM_MODEL=
+
+Allow the model to be configured.
+
+Recommended hackathon models may include:
+
+openai/gpt-oss-120b
+qwen/qwen3-32b
+
+But do not hardcode a model if the user changes it through
+.env.
+
+The LLM should receive:
+
+CURRENT INCIDENT
++
+CURRENT EVIDENCE
++
+HINDSIGHT MEMORIES
++
+RUNBOOK INFORMATION
+
+Then produce structured incident analysis.
+
+IMPORTANT:
+
+Use Pydantic validation.
+
+Never trust raw LLM JSON.
+
+Handle:
+
+- invalid API key
+- timeout
+- rate limit
+- malformed response
+- provider failure
+- function calling errors
+
+without crashing the backend.
+
+============================================================
+15. INCIDENT AGENT
+============================================================
+
+Create:
+
+backend/app/agents/incident_agent.py
+
+The agent workflow:
+
+1. Validate incident.
+2. Recall Hindsight memories.
+3. Analyze current incident.
+4. Generate hypotheses.
+5. Analyze evidence.
+6. Match runbooks.
+7. Generate recommendations.
+8. Return structured result.
+
+Output:
+
+{
+    "incident_id": "...",
+    "summary": "...",
+    "historical_memory_found": true,
+    "historical_memories": [],
+    "similar_incidents": [],
+    "hypotheses": [],
+    "recommended_runbooks": [],
+    "recommended_actions": [],
+    "requires_human_approval": true
+}
+
+============================================================
+16. RUNBOOK ENGINE
+============================================================
+
+Create:
+
+backend/app/services/runbook_service.py
+
+Create:
+
+backend/app/data/runbooks.json
+
+Each runbook should contain:
+
+id
+name
+description
+applicable_services
+applicable_symptoms
+diagnostic_steps
+remediation_steps
+risk
+rollback
+success_criteria
+
+Create at least these demo runbooks:
+
+1. API Gateway Memory Leak Recovery
+2. High CPU Investigation
+3. Database Timeout Recovery
+4. Slow Query Investigation
+5. Bad Deployment Rollback
+6. HTTP 5xx Investigation
+
+The system should match incident hypotheses with runbooks.
+
+IMPORTANT:
+
+If Hindsight says a runbook was successful in a previous similar
+incident, highlight that.
+
+Example:
+
+"Previously successful in incident IR-001."
+
+============================================================
+17. RECOMMENDATION ENGINE
+============================================================
+
+Create:
+
+backend/app/agents/recommendation_engine.py
+
+Every recommendation should include:
+
+action
+reason
+evidence
+historical_support
+runbook
+risk
+expected_outcome
+
+Example:
+
+{
+    "action": "Rollback the latest API Gateway deployment",
+    "reason": "A similar historical incident was caused by a
+    memory leak introduced by the deployment.",
+    "historical_support": "IR-001",
+    "runbook": "API Gateway Memory Leak Recovery",
+    "risk": "medium",
+    "expected_outcome": "CPU and memory utilization should
+    return toward baseline."
+}
+
+============================================================
+18. HUMAN APPROVAL
+============================================================
+
+Do NOT automatically execute dangerous production actions.
+
+The application should show:
+
+AI Recommendation
+
+        ↓
+
+Human Review
+
+     APPROVE
+        or
+     REJECT
+
+Store:
+
+decision
+timestamp
+operator_comment
+
+For hackathon purposes, simulated execution is acceptable.
+
+Clearly label simulated actions as simulated.
+
+============================================================
+19. POSTMORTEM
+============================================================
+
+Create:
+
+backend/app/services/postmortem_service.py
+
+Postmortem must include:
+
+Incident Summary
+Impact
+Timeline
+Root Cause
+Contributing Factors
+Resolution
+Runbook Used
+What Worked
+What Failed
+Lessons Learned
+Follow-up Actions
+
+After generating the postmortem:
+
+RETAIN THE LEARNING IN HINDSIGHT.
+
+This is mandatory.
+
+============================================================
+20. API ROUTES
+============================================================
+
+Create:
+
+GET /health
+
+GET /api/incidents
+
+GET /api/incidents/{incident_id}
+
+POST /api/incidents
+
+PATCH /api/incidents/{incident_id}
+
+POST /api/incidents/simulate
+
+POST /api/agents/analyze/{incident_id}
+
+POST /api/incidents/{incident_id}/approve
+
+POST /api/incidents/{incident_id}/reject
+
+GET /api/memory/recall
+
+POST /api/memory/reflect
+
+GET /api/memory/status
+
+GET /api/postmortems/{incident_id}
+
+POST /api/postmortems/{incident_id}
+
+PUT /api/postmortems/{incident_id}
+
+Use Pydantic request/response models.
+
+============================================================
+21. FRONTEND DESIGN
+============================================================
+
+Build a professional hackathon dashboard.
+
+Do NOT make it look like a simple CRUD application.
+
+Theme:
+
+Dark DevOps / SRE command center.
+
+Use clean cards, status indicators, timelines, confidence
+meters, memory panels, and recommendation cards.
+
+Main dashboard:
+
+------------------------------------------------------------
+INCIDENT RESPONSE AGENT
+AI-Powered DevOps Command Center
+
+Hindsight: 🟢 Connected
+LLM: 🟢 Connected
+
+Active Incidents
+Critical: 1
+High: 2
+Medium: 3
+------------------------------------------------------------
+
+Recent incidents.
+
+============================================================
+22. INCIDENT DETAILS PAGE
+============================================================
+
+Display:
+
+Incident Header
+
+Service
+Severity
+Status
+Time
+Description
+
+Then:
+
+Timeline
+
+Evidence
+
+AI Investigation
+
+Hindsight Memory
+
+Hypotheses
+
+Runbooks
+
+Recommendations
+
+Approval
+
+Resolution
+
+Postmortem
+
+============================================================
+23. HINDSIGHT MEMORY PANEL
+============================================================
+
+This is one of the MOST IMPORTANT UI sections.
+
+Display:
+
+🧠 HINDSIGHT MEMORY
+
+If memories found:
+
+"3 relevant historical memories found"
+
+Then cards:
+
+Previous Incident
+Root Cause
+Resolution
+Runbook
+Why Relevant
+
+If no memory:
+
+"🟡 No relevant historical memory found"
+
+If unavailable:
+
+"🔴 Hindsight unavailable"
+
+Never show fake memory.
+
+============================================================
+24. AI INVESTIGATION PANEL
+============================================================
+
+Show:
+
+Likely Root Causes
+
+Hypothesis cards:
+
+Cause
+Confidence
+Evidence
+Reasoning
+
+Example:
+
+MEMORY LEAK
+
+87% confidence
+
+Evidence:
+• Memory usage increased continuously
+• Recent deployment detected
+• Similar historical incident found
+
+============================================================
+25. RECOMMENDATION PANEL
+============================================================
+
+Show:
+
+Recommended Action
+
+Why this action?
+
+Historical Evidence
+
+Runbook
+
+Risk
+
+Expected Outcome
+
+Example:
+
+------------------------------------------------------------
+Recommended Action
+
+Rollback latest deployment
+
+Why?
+
+A previous API Gateway incident showed the same symptoms
+after deployment and was successfully resolved using rollback.
+
+Historical Incident:
+
+IR-001
+
+Runbook:
+
+API Gateway Memory Leak Recovery
+
+Risk:
+
+Medium
+
+Expected Outcome:
+
+Restore CPU and memory utilization toward baseline.
+
+[ APPROVE ] [ REJECT ]
+------------------------------------------------------------
+
+============================================================
+26. POSTMORTEM UI
+============================================================
+
+Display:
+
+POSTMORTEM
+
+Summary
+Impact
+Timeline
+Root Cause
+Resolution
+Runbook
+What Worked
+What Failed
+Lessons Learned
+Follow-up Actions
+
+Button:
+
+[ Save & Learn ]
+
+When clicked:
+
+1. Save postmortem.
+2. Retain learning in Hindsight.
+3. Display:
+
+"🧠 Incident knowledge retained in Hindsight."
+
+============================================================
+27. MEMORY LIBRARY
+============================================================
+
+Create a Memory Library page.
+
+Display retained operational knowledge.
+
+Example:
+
+------------------------------------------------------------
+Memory #1
+
+API Gateway Memory Leak
+
+Root Cause:
+Deployment introduced memory leak.
+
+Resolution:
+Rollback deployment.
+
+Runbook:
+API Gateway Memory Leak Recovery
+
+Outcome:
+Successful
+
+Source:
+Incident IR-001
+------------------------------------------------------------
+
+============================================================
+28. DEMO MODE
+============================================================
+
+Create a demo simulator.
+
+The user can select:
+
+High CPU
+Database Timeout
+HTTP 5xx Spike
+Memory Leak
+Slow Query
+Bad Deployment
+
+Provide realistic sample metrics/logs.
+
+The simulator must create a REAL backend incident.
+
+Do not implement only frontend fake data.
+
+============================================================
+29. CRITICAL DEMO FLOW
+============================================================
+
+The application MUST support this exact demo.
+
+DEMO PART 1:
+
+Create:
+
+IR-001
+
+Service:
+api-gateway
+
+Issue:
+High CPU
+
+CPU:
+94%
+
+Symptoms:
+- CPU continuously increasing
+- memory increasing
+- recent deployment
+
+Run investigation.
+
+At first:
+
+Hindsight:
+No relevant memory.
+
+Generate hypothesis:
+
+Memory Leak
+
+Generate recommendation:
+
+Rollback latest deployment.
+
+Approve.
+
+Simulate resolution.
+
+Generate postmortem.
+
+Root cause:
+
+Deployment-related memory leak.
+
+Resolution:
+
+Rollback deployment + restart service.
+
+Runbook:
+
+API Gateway Memory Leak Recovery
+
+Mark successful.
+
+Click:
+
+SAVE & LEARN
+
+The system must retain this knowledge in Hindsight.
+
+------------------------------------------------------------
+
+DEMO PART 2:
+
+Create:
+
+IR-002
+
+Service:
+api-gateway
+
+Issue:
+High CPU
+
+CPU:
+91%
+
+Symptoms:
+- CPU increasing
+- memory increasing
+- recent deployment
+
+Run investigation again.
+
+NOW:
+
+Hindsight should recall IR-001.
+
+The UI should show:
+
+🧠 Similar historical incident found.
+
+Previous incident:
+
+IR-001
+
+Previous root cause:
+
+Deployment-related memory leak
+
+Previous resolution:
+
+Rollback deployment + restart service
+
+Previous successful runbook:
+
+API Gateway Memory Leak Recovery
+
+The agent should use this historical knowledge to generate
+the recommendation.
+
+THIS IS THE MAIN HACKATHON DEMONSTRATION.
+
+============================================================
+30. HINDSIGHT STATUS
+============================================================
+
+Create:
+
+GET /api/memory/status
+
+Return:
+
+{
+    "connected": true,
+    "bank_id": "incident-response-team",
+    "provider": "Hindsight"
+}
+
+Frontend should display:
+
+🟢 Hindsight Connected
+
+or:
+
+🔴 Hindsight Unavailable
+
+============================================================
+31. DATABASE / STORAGE
+============================================================
+
+For the first working version:
+
+Use SQLite for application state.
+
+Do NOT introduce Supabase/PostgreSQL unless it is genuinely
+needed.
+
+Use SQLAlchemy or SQLModel if appropriate.
+
+Store:
+
+incidents
+approvals
+postmortems
+
+Hindsight stores long-term incident learning.
+
+This separation is intentional:
+
+Application Database:
+Current application state
+
+Hindsight:
+Long-term operational memory
+
+============================================================
+32. DOCKER
+============================================================
+
+Create a docker-compose.yml for optional local Hindsight.
+
+However:
+
+The application MUST also support Hindsight Cloud.
+
+Do not make Docker mandatory if the user is using Hindsight Cloud.
+
+Document both options.
+
+For local Hindsight, follow the current official Hindsight
+installation documentation rather than inventing Docker commands.
+
+============================================================
+33. ENVIRONMENT VARIABLES
+============================================================
+
+Create:
+
+backend/.env.example
+
+Containing:
+
+HINDSIGHT_BASE_URL=https://api.hindsight.vectorize.io
+HINDSIGHT_API_KEY=
+HINDSIGHT_BANK_ID=incident-response-team
+
+LLM_API_KEY=
+LLM_BASE_URL=
+LLM_MODEL=
+
+DATABASE_URL=sqlite:///./incident_response.db
+
+FRONTEND_API_URL=http://localhost:8000
+
+Never commit .env.
+
+Create proper .gitignore files.
+
+============================================================
+34. ERROR HANDLING
+============================================================
+
+Handle:
+
+Hindsight unavailable
+Hindsight timeout
+Invalid Hindsight API key
+Hindsight empty recall
+LLM unavailable
+LLM timeout
+LLM invalid key
+LLM rate limit
+Malformed LLM output
+Missing environment variables
+Invalid incident
+Unknown incident
+Unknown runbook
+Backend unavailable
+
+Never crash the frontend.
+
+Never crash the backend because Hindsight is temporarily
+unavailable.
+
+Never fabricate AI results.
+
+Never fabricate memories.
+
+============================================================
+35. TESTING
+============================================================
+
+Create comprehensive backend tests.
+
+Tests:
+
+test_health.py
+
+test_incidents.py
+
+test_agent.py
+
+test_memory.py
+
+test_postmortem.py
+
+Use mocks for external Hindsight and LLM APIs.
+
+Test:
+
+1. Health
+2. Create incident
+3. Get incident
+4. Update incident
+5. Simulate incident
+6. Hindsight recall
+7. Hindsight retain
+8. Hindsight reflect
+9. Hindsight unavailable
+10. Empty memory
+11. Hypothesis generation
+12. Runbook matching
+13. Recommendation
+14. Approval
+15. Rejection
+16. Postmortem
+17. Postmortem retention
+18. LLM failure
+19. Invalid input
+
+============================================================
+36. END-TO-END VERIFICATION SCRIPT
+============================================================
+
+Create:
+
+scripts/verify_learning_loop.py
+
+It must verify:
+
+1. Create incident A.
+2. Analyze incident A.
+3. Resolve incident A.
+4. Generate postmortem.
+5. Retain incident A into Hindsight.
+6. Create similar incident B.
+7. Recall Hindsight.
+8. Confirm incident A appears in relevant memories.
+9. Confirm root cause is available.
+10. Confirm resolution is available.
+11. Confirm runbook is available.
+12. Generate recommendation for incident B.
+
+Print:
+
+==================================================
+HINDSIGHT LEARNING LOOP VERIFICATION
+==================================================
+
+Incident A: PASS
+Postmortem A: PASS
+Hindsight Retain: PASS
+Incident B: PASS
+Hindsight Recall: PASS
+Previous Root Cause: PASS
+Previous Resolution: PASS
+Previous Runbook: PASS
+Historical Recommendation: PASS
+
+OVERALL: PASS
+
+==================================================
+
+Do not report PASS unless the operation actually succeeded.
+
+============================================================
+37. README
+============================================================
+
+Create a professional README.md.
+
+Include:
+
+# Incident Response Agent
+
+Project overview
+
+Hackathon problem
+
+Why Hindsight
+
+Architecture
+
+Incident workflow
+
+Hindsight memory workflow
+
+AI investigation
+
+Runbooks
+
+Human approval
+
+Postmortem learning
+
+Tech stack
+
+Project structure
+
+Installation
+
+Environment variables
+
+Hindsight Cloud setup
+
+Local Hindsight setup
+
+Groq/LLM setup
+
+Backend setup
+
+Frontend setup
+
+API documentation
+
+Demo walkthrough
+
+Learning loop
+
+Testing
+
+Known limitations
+
+Future improvements
+
+The README must explain the central idea:
+
+"Incident A teaches the system.
+Incident B benefits from that memory."
+
+============================================================
+38. UI QUALITY
+============================================================
+
+The application is for a hackathon.
+
+Make it visually impressive but not unnecessarily complex.
+
+Use:
+
+- responsive layout
+- dark theme
+- professional typography
+- cards
+- badges
+- timelines
+- confidence meters
+- memory cards
+- status indicators
+- loading states
+- empty states
+- error states
+- toast notifications
+
+Do not spend excessive time on animations.
+
+Functionality is more important than decoration.
+
+============================================================
+39. NO FAKE IMPLEMENTATION
+============================================================
+
+This rule is extremely important.
+
+DO NOT:
+
+- fake Hindsight memories
+- fake LLM responses
+- fake API success
+- hardcode "Hindsight connected"
+- show static recommendations as AI results
+- claim a postmortem was retained when it wasn't
+- claim historical incidents were recalled when they weren't
+
+Demo seed data is allowed.
+
+But when the UI says:
+
+"Hindsight found a previous incident"
+
+that information must come from the actual Hindsight response.
+
+============================================================
+40. DEVELOPMENT ORDER
+============================================================
+
+Implement in this exact order:
+
+PHASE 1
+Create project structure.
+
+PHASE 2
+Create FastAPI backend.
+
+PHASE 3
+Create SQLite application database.
+
+PHASE 4
+Create Pydantic models.
+
+PHASE 5
+Implement incident APIs.
+
+PHASE 6
+Implement Hindsight service.
+
+PHASE 7
+Verify Hindsight connection.
+
+PHASE 8
+Implement LLM service.
+
+PHASE 9
+Implement hypothesis engine.
+
+PHASE 10
+Implement runbook engine.
+
+PHASE 11
+Implement incident agent.
+
+PHASE 12
+Implement recommendations.
+
+PHASE 13
+Implement approval workflow.
+
+PHASE 14
+Implement postmortem.
+
+PHASE 15
+Implement Hindsight retention.
+
+PHASE 16
+Create React frontend.
+
+PHASE 17
+Connect frontend to backend.
+
+PHASE 18
+Create demo simulator.
+
+PHASE 19
+Create learning-loop verification.
+
+PHASE 20
+Run tests.
+
+PHASE 21
+Run frontend build.
+
+PHASE 22
+Run complete end-to-end demo.
+
+PHASE 23
+Fix every error.
+
+PHASE 24
+Update README.
+
+============================================================
+41. DO NOT STOP EARLY
+============================================================
+
+You are not finished when files are generated.
+
+You are finished only when:
+
+Backend starts.
+
+Frontend starts.
+
+Frontend builds.
+
+Tests pass.
+
+Hindsight connects.
+
+LLM connects.
+
+Incident can be created.
+
+Incident can be analyzed.
+
+Memory can be recalled.
+
+Recommendation can be generated.
+
+Approval works.
+
+Postmortem works.
+
+Postmortem learning is retained.
+
+Second incident recalls first incident.
+
+Historical recommendation is generated.
+
+============================================================
+42. FINAL VERIFICATION
+============================================================
+
+After implementation run:
+
+Backend:
+
+python -m compileall backend
+
+pytest
+
+Frontend:
+
+npm install
+
+npm run build
+
+Then start both applications.
+
+Verify:
+
+Backend:
+http://localhost:8000
+
+Swagger:
+http://localhost:8000/docs
+
+Frontend:
+http://localhost:5173
+
+Health:
+
+GET /health
+
+============================================================
+43. FINAL OUTPUT
+============================================================
+
+When completely finished, provide:
+
+PROJECT:
+Incident Response Agent
+
+STATUS:
+READY / NOT READY
+
+Backend:
+PASS / FAIL
+
+Frontend:
+PASS / FAIL
+
+Hindsight:
+PASS / FAIL
+
+LLM:
+PASS / FAIL
+
+Database:
+PASS / FAIL
+
+API:
+PASS / FAIL
+
+Tests:
+PASS / FAIL
+
+Frontend Build:
+PASS / FAIL
+
+Incident A:
+PASS / FAIL
+
+Hindsight Retain:
+PASS / FAIL
+
+Incident B:
+PASS / FAIL
+
+Hindsight Recall:
+PASS / FAIL
+
+Historical Recommendation:
+PASS / FAIL
+
+END-TO-END LEARNING LOOP:
+PASS / FAIL
+
+Also provide:
+
+1. Files created.
+2. Dependencies installed.
+3. Environment variables required.
+4. Exact commands to start backend.
+5. Exact commands to start frontend.
+6. Exact Hindsight setup.
+7. Exact demo steps.
+
+IMPORTANT:
+
+Do not say READY unless the full:
+
+INCIDENT A
+→ POSTMORTEM
+→ HINDSIGHT RETAIN
+→ INCIDENT B
+→ HINDSIGHT RECALL
+→ HISTORICAL RECOMMENDATION
+
+workflow has actually been verified.
+
+============================================================
+FINAL INSTRUCTION
+============================================================
+
+START NOW.
+
+Because the workspace is empty, CREATE EVERYTHING FROM SCRATCH.
+
+Do not ask me for an existing repository.
+
+Do not stop after planning.
+
+Do not give me pseudocode.
+
+Create the actual files.
+
+Install dependencies where appropriate.
+
+Run the application.
+
+Run tests.
+
+Fix errors.
+
+Run the learning-loop verification.
+
+The final application must be a functional,
+Hindsight-powered Incident Response Agent suitable for
+a hackathon demonstration.
+
+The core story is:
+
+                 INCIDENT
+                     ↓
+              HINDSIGHT RECALL
+                     ↓
+             AI INVESTIGATION
+                     ↓
+               RECOMMEND
+                     ↓
+              HUMAN APPROVAL
+                     ↓
+                RESOLVE
+                     ↓
+              POSTMORTEM
+                     ↓
+              HINDSIGHT RETAIN
+                     ↓
+          FUTURE INCIDENT LEARNS
+
+BUILD THIS NOW.
+============================================================
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-09-29T18:27:48+05:30.
+</ADDITIONAL_METADATA>
+<USER_SETTINGS_CHANGE>
+The user changed setting `Model Selection` from None to Claude Sonnet 4.6 (Thinking). No need to comment on this change if the user doesn't ask about it. If reporting what model you are, please use a human readable name instead of the exact string.
+</USER_SETTINGS_CHANGE>

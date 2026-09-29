@@ -1,0 +1,170 @@
+[
+  {
+    "id": "rb-001",
+    "name": "API Gateway Memory Leak Recovery",
+    "description": "Diagnose and recover from memory leaks in the API Gateway service",
+    "applicable_services": ["api-gateway", "gateway"],
+    "applicable_symptoms": ["memory leak", "memory increasing", "OOM", "high memory", "memory growth"],
+    "diagnostic_steps": [
+      "Check current memory usage: kubectl top pods -n production",
+      "Review recent deployments: kubectl rollout history deployment/api-gateway",
+      "Examine heap dumps: kubectl exec -it <pod> -- jmap -histo:live <pid>",
+      "Check for memory trends in monitoring: look for continuously increasing RSS",
+      "Review application logs for GC pressure or OutOfMemoryError"
+    ],
+    "remediation_steps": [
+      "Rollback the latest deployment: kubectl rollout undo deployment/api-gateway",
+      "Restart affected pods: kubectl rollout restart deployment/api-gateway",
+      "Monitor memory usage post-restart",
+      "Alert engineering team to investigate the memory leak in the rolled-back version",
+      "Create a hotfix branch and prepare a patched release"
+    ],
+    "risk": "medium",
+    "rollback": "If rollback fails, scale up replicas temporarily and drain the leaking pods",
+    "success_criteria": [
+      "Memory utilization returns below 60%",
+      "No OOM events in the past 10 minutes",
+      "API response times are normal"
+    ]
+  },
+  {
+    "id": "rb-002",
+    "name": "High CPU Investigation",
+    "description": "Investigate and mitigate high CPU utilization on any service",
+    "applicable_services": ["api-gateway", "auth-service", "payment-service", "user-service"],
+    "applicable_symptoms": ["high cpu", "cpu spike", "cpu utilization", "cpu continuously increasing"],
+    "diagnostic_steps": [
+      "Identify top CPU consumers: kubectl top pods --sort-by=cpu",
+      "Check for recent deployments or config changes",
+      "Profile application: check for hot code paths",
+      "Review incoming traffic patterns",
+      "Check for runaway processes or loops"
+    ],
+    "remediation_steps": [
+      "If deployment-related: rollback last deployment",
+      "If traffic spike: enable rate limiting",
+      "Horizontal scale: kubectl scale deployment/<name> --replicas=<n>",
+      "Kill runaway processes if identified",
+      "Enable CPU throttling as temporary measure"
+    ],
+    "risk": "low",
+    "rollback": "Restore previous replica count and deployment version",
+    "success_criteria": [
+      "CPU utilization below 70%",
+      "No alerts firing for CPU",
+      "Service latency within SLA"
+    ]
+  },
+  {
+    "id": "rb-003",
+    "name": "Database Timeout Recovery",
+    "description": "Recover from database connection timeouts and connection pool exhaustion",
+    "applicable_services": ["database", "postgres", "mysql", "user-service", "order-service"],
+    "applicable_symptoms": ["db timeout", "connection timeout", "connection pool", "database unavailable", "query timeout"],
+    "diagnostic_steps": [
+      "Check active database connections: SELECT count(*) FROM pg_stat_activity",
+      "Identify long-running queries: SELECT * FROM pg_stat_activity WHERE state = 'active' ORDER BY duration DESC",
+      "Check connection pool metrics in application",
+      "Review database server resource utilization",
+      "Check network connectivity between app and database"
+    ],
+    "remediation_steps": [
+      "Kill long-running blocking queries: SELECT pg_terminate_backend(pid)",
+      "Restart connection pool: restart application pods",
+      "If connection pool exhausted: increase pool size temporarily",
+      "Scale read replicas if read-heavy load",
+      "Enable query timeout for long-running queries"
+    ],
+    "risk": "medium",
+    "rollback": "Restore previous connection pool configuration",
+    "success_criteria": [
+      "Database connections below 80% of limit",
+      "No timeout errors in application logs",
+      "Query response times within normal range"
+    ]
+  },
+  {
+    "id": "rb-004",
+    "name": "Slow Query Investigation",
+    "description": "Investigate and optimize slow database queries causing performance degradation",
+    "applicable_services": ["database", "postgres", "mysql"],
+    "applicable_symptoms": ["slow query", "slow database", "high latency", "query performance"],
+    "diagnostic_steps": [
+      "Enable slow query log: SET GLOBAL slow_query_log = 'ON'",
+      "Identify top slow queries using EXPLAIN ANALYZE",
+      "Check for missing indexes",
+      "Review recent schema changes",
+      "Analyze query execution plans"
+    ],
+    "remediation_steps": [
+      "Add missing indexes for frequently queried columns",
+      "Rewrite inefficient queries",
+      "Add query caching where appropriate",
+      "Increase database server resources temporarily",
+      "Partition large tables if needed"
+    ],
+    "risk": "low",
+    "rollback": "Revert index changes or schema modifications",
+    "success_criteria": [
+      "Slow query log shows no queries over 1 second",
+      "Application latency returns to baseline",
+      "Database CPU utilization is normal"
+    ]
+  },
+  {
+    "id": "rb-005",
+    "name": "Bad Deployment Rollback",
+    "description": "Roll back a failed or problematic deployment",
+    "applicable_services": ["api-gateway", "auth-service", "payment-service", "user-service", "order-service"],
+    "applicable_symptoms": ["after deployment", "recent deployment", "new version", "deployment issue", "regression"],
+    "diagnostic_steps": [
+      "Confirm the deployment is the cause: check deployment timestamp vs incident start",
+      "Review deployment diff: git diff <prev-tag> <current-tag>",
+      "Check error logs for new error types post-deployment",
+      "Verify health checks and readiness probes"
+    ],
+    "remediation_steps": [
+      "Rollback immediately: kubectl rollout undo deployment/<name>",
+      "Verify rollback completed: kubectl rollout status deployment/<name>",
+      "Monitor service metrics for 5 minutes post-rollback",
+      "Notify engineering team of the rollback",
+      "Create incident ticket to track the bad deployment fix"
+    ],
+    "risk": "low",
+    "rollback": "If rollback fails, scale to zero and redeploy last known good version",
+    "success_criteria": [
+      "Error rate returns to pre-deployment baseline",
+      "No new error types in logs",
+      "All health checks passing",
+      "Service traffic restored"
+    ]
+  },
+  {
+    "id": "rb-006",
+    "name": "HTTP 5xx Investigation",
+    "description": "Investigate and resolve HTTP 5xx error spikes",
+    "applicable_services": ["api-gateway", "auth-service", "payment-service", "web-frontend"],
+    "applicable_symptoms": ["5xx errors", "http errors", "server error", "500 error", "502", "503", "504"],
+    "diagnostic_steps": [
+      "Check error logs: filter by 5xx status codes",
+      "Identify which endpoints are returning errors",
+      "Check upstream service health (dependencies)",
+      "Review recent deployments",
+      "Check for configuration changes"
+    ],
+    "remediation_steps": [
+      "If dependency failure: enable circuit breaker or fallback",
+      "If deployment related: rollback deployment",
+      "If configuration error: revert configuration change",
+      "Restart unhealthy pods",
+      "Enable maintenance mode if error rate is critical"
+    ],
+    "risk": "medium",
+    "rollback": "Restore previous application configuration and deployment",
+    "success_criteria": [
+      "5xx error rate below 0.1%",
+      "All upstream dependencies healthy",
+      "Alerting shows green state"
+    ]
+  }
+]

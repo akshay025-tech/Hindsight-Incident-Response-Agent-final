@@ -1,0 +1,123 @@
+[
+  {
+    "id": "IR-001",
+    "title": "High CPU & Memory Degradation",
+    "service": "api-gateway",
+    "severity": "HIGH",
+    "status": "OPEN",
+    "description": "API Gateway service experiencing elevated CPU (94%) and uncollected memory accumulation following rollout of v2.14.0.",
+    "symptoms": [
+      "CPU continuously increasing",
+      "memory increasing",
+      "recent deployment",
+      "p99 latency 2400ms"
+    ],
+    "metrics": {
+      "cpu_percent": 94,
+      "memory_percent": 88,
+      "request_rate_rps": 4500,
+      "error_rate_percent": 3.8,
+      "active_connections": 1420
+    },
+    "logs": [
+      "WARN [WorkerPool] thread pool saturation detected on worker-6",
+      "WARN [GC] Long GC pause observed: 1280ms",
+      "ERROR [Ingress] upstream healthcheck timeout after 3000ms"
+    ],
+    "deployment": {
+      "recent": true,
+      "version": "v2.14.0",
+      "timestamp": "30 minutes ago",
+      "author": "release-bot",
+      "commit": "a8f9c1e"
+    }
+  },
+  {
+    "id": "IR-002",
+    "title": "High CPU & Memory Exhaustion",
+    "service": "api-gateway",
+    "severity": "HIGH",
+    "status": "OPEN",
+    "description": "API Gateway alerting with sustained 91% CPU and expanding memory footprint post-deployment of v2.15.1.",
+    "symptoms": [
+      "CPU increasing",
+      "memory increasing",
+      "recent deployment",
+      "worker saturation"
+    ],
+    "metrics": {
+      "cpu_percent": 91,
+      "memory_percent": 86,
+      "request_rate_rps": 4350,
+      "error_rate_percent": 3.1,
+      "active_connections": 1390
+    },
+    "logs": [
+      "WARN [WorkerPool] thread queue backlog exceeding 400 jobs",
+      "WARN [GC] GC overhead limit warning",
+      "ERROR [Health] liveness probe slow response: 2800ms"
+    ],
+    "deployment": {
+      "recent": true,
+      "version": "v2.15.1",
+      "timestamp": "15 minutes ago",
+      "author": "release-bot",
+      "commit": "c4d7e2b"
+    }
+  },
+  {
+    "id": "IR-003",
+    "title": "PostgreSQL Connection Pool Starvation",
+    "service": "payment-service",
+    "severity": "CRITICAL",
+    "status": "OPEN",
+    "description": "Database connection timeouts spiking across checkout workers; connection pool fully exhausted.",
+    "symptoms": [
+      "db timeout",
+      "connection pool exhausted",
+      "504 gateway timeout",
+      "slow transactions"
+    ],
+    "metrics": {
+      "active_connections": 100,
+      "pool_capacity": 100,
+      "query_latency_ms": 5200,
+      "error_rate_percent": 18.5
+    },
+    "logs": [
+      "ERROR [HikariCP] Connection is not available, request timed out after 30000ms",
+      "WARN [TxManager] Rolling back stale checkout transaction"
+    ],
+    "deployment": {
+      "recent": false,
+      "version": "v1.8.2"
+    }
+  },
+  {
+    "id": "IR-004",
+    "title": "HTTP 500 Error Storm on Auth Service",
+    "service": "auth-service",
+    "severity": "CRITICAL",
+    "status": "OPEN",
+    "description": "Spike in HTTP 500 internal server errors following Redis cache eviction failure.",
+    "symptoms": [
+      "http 5xx",
+      "500 internal server error",
+      "redis timeout",
+      "token validation failing"
+    ],
+    "metrics": {
+      "http_5xx_rate": 34.2,
+      "auth_latency_ms": 1950,
+      "cache_miss_rate": 96.0
+    },
+    "logs": [
+      "ERROR [SessionValidator] RedisCommandTimeoutException: Command timed out after 500ms",
+      "FATAL [AuthFilter] Unhandled NullPointerException in SessionStore"
+    ],
+    "deployment": {
+      "recent": false,
+      "version": "v3.2.0"
+    }
+  }
+]
